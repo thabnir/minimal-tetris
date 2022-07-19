@@ -77,7 +77,7 @@ abstract class Piece(val color: Color, var direction: Int, var coords: Point) {
     }
 }
 
-class LPiece : Piece(Color(226, 156, 1), 0, Point(4, 0)) {
+class LPiece : Piece(Color(226, 156, 1), 3, Point(3, 0)) {
     override fun rotateCounterClockwise() {
         direction = (direction + 1) % 4
     }
@@ -101,7 +101,7 @@ class LPiece : Piece(Color(226, 156, 1), 0, Point(4, 0)) {
     }
 }
 
-class JPiece : Piece(Color(1, 130, 233), 0, Point(4, 0)) {
+class JPiece : Piece(Color(1, 130, 233), 1, Point(4, 0)) {
     override fun rotateCounterClockwise() {
         direction = (direction + 1) % 4
     }
@@ -172,7 +172,7 @@ class TPiece : Piece(Color(178, 0, 215), 0, Point(4, 0)) {
     }
 }
 
-class OPiece : Piece(Color(240, 230, 0), 0, Point(4, 0)) {
+class OPiece : Piece(Color(240, 230, 0), 0, Point(3, 0)) {
     override fun rotateCounterClockwise() {
         // squares can't rotate
     }

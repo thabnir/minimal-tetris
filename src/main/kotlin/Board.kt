@@ -7,12 +7,13 @@ class Board {
     val activeGrid: ArrayList<Array<Cell>> = ArrayList()
     val ghostGrid: ArrayList<Array<Cell>> = ArrayList()
     val numCols = 10
-    val numRows = 20
-    val emptyColor = Color.WHITE
+    val numRows = numCols * 2
+    var emptyColor: Color = Color.BLACK // TODO: make this not here and also customizable via settings menus
 
     val nextPieces: ArrayList<Piece> = ArrayList() // 1 more than shows on screen
     var pieceBag: ArrayList<Piece> = ArrayList()
 
+    val hasGhostPiece = true
     var holdUsed = false
     var holdPiece: Piece? = null
     var activePiece: Piece
@@ -69,9 +70,9 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + piece.coords.x
             val y = coord / 4 + piece.coords.y + 1
-            if (y < 0 || x < 0 || x > 9) {
+            if (y < 0 || x < 0 || x > numCols - 1) {
                 return false
-            } else if (y > 19 || staticGrid[y][x].isFilled) {
+            } else if (y > numRows - 1 || staticGrid[y][x].isFilled) {
                 if (activePiece == piece) placePiece()
                 return false
             }
@@ -140,7 +141,7 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + activePiece.coords.x + dx
             val y = coord / 4 + activePiece.coords.y + dy
-            if (y < 0 || x < 0 || x > 9 || y > 19 || staticGrid[y][x].isFilled) {
+            if (y < 0 || x < 0 || x > numCols - 1 || y > numRows - 1 || staticGrid[y][x].isFilled) {
                 return false
             }
         }
@@ -153,7 +154,7 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + activePiece.coords.x
             val y = coord / 4 + activePiece.coords.y
-            if (x < 0 || x > 9 || y < 0 || y > 19 || staticGrid[y][x].isFilled) {
+            if (x < 0 || x > numCols - 1 || y < 0 || y > numRows - 1 || staticGrid[y][x].isFilled) {
                 activePiece.direction = dir
                 return false
             }
@@ -178,7 +179,17 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + ghostPiece.coords.x
             val y = coord / 4 + ghostPiece.coords.y
-            val c = Color(ghostPiece.color.red, ghostPiece.color.green, ghostPiece.color.blue, 35)
+            var c: Color
+            if (hasGhostPiece) {
+                val opacity = when (emptyColor) {
+                    Color.WHITE -> 45
+                    Color.BLACK -> 45 // TODO: make this customizable via slider in a settings menu
+                    else -> 50
+                }
+                c = Color(ghostPiece.color.red, ghostPiece.color.green, ghostPiece.color.blue, opacity)
+            } else {
+                c = emptyColor
+            }
             ghostGrid[y][x] = Cell(true, c)
         }
     }

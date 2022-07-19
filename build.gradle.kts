@@ -12,6 +12,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.formdev:flatlaf:2.3")
+    implementation("com.formdev:flatlaf-intellij-themes:2.3")
     testImplementation(kotlin("test"))
 }
 
