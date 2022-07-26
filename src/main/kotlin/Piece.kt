@@ -1,19 +1,17 @@
-import java.awt.Color
 import java.awt.Point
 
-// 0 is default
-// 1 is 3 o clock
-// 2 is 6 o clock
-// 3 is 9 o clock
+enum class PieceType {
+    L,
+    J,
+    I,
+    T,
+    O,
+    S,
+    Z,
+    EMPTY
+}
 
-/*
-      COORDS:
-    0  1  2  3
-    4  5  6  7
-    8  9  10 11
-    12 13 14 15
- */
-abstract class Piece(val color: Color, var direction: Int, var coords: Point) {
+abstract class Piece(val type: PieceType, var direction: Int, var coords: Point) {
     abstract fun rotateCounterClockwise()
     abstract fun rotateClockwise()
     abstract fun getCoordinates(dir: Int): Array<Int>
@@ -77,7 +75,7 @@ abstract class Piece(val color: Color, var direction: Int, var coords: Point) {
     }
 }
 
-class LPiece : Piece(Color(226, 156, 1), 3, Point(3, 0)) {
+class LPiece : Piece(PieceType.L, 0, Point(3, 0)) {
     override fun rotateCounterClockwise() {
         direction = (direction + 1) % 4
     }
@@ -88,10 +86,10 @@ class LPiece : Piece(Color(226, 156, 1), 3, Point(3, 0)) {
 
     override fun getCoordinates(dir: Int): Array<Int> {
         return when (Math.floorMod(dir, 4)) {
-            0 -> arrayOf(1, 2, 6, 10)
-            1 -> arrayOf(5, 6, 7, 9)
-            2 -> arrayOf(2, 6, 10, 11)
-            3 -> arrayOf(3, 5, 6, 7)
+            0 -> arrayOf(3, 5, 6, 7)
+            1 -> arrayOf(1, 2, 6, 10)
+            2 -> arrayOf(5, 6, 7, 9)
+            3 -> arrayOf(2, 6, 10, 11)
             else -> arrayOf(-1, -1, -1, -1)
         }
     }
@@ -101,7 +99,7 @@ class LPiece : Piece(Color(226, 156, 1), 3, Point(3, 0)) {
     }
 }
 
-class JPiece : Piece(Color(1, 130, 233), 1, Point(4, 0)) {
+class JPiece : Piece(PieceType.J, 0, Point(4, 0)) {
     override fun rotateCounterClockwise() {
         direction = (direction + 1) % 4
     }
@@ -112,10 +110,10 @@ class JPiece : Piece(Color(1, 130, 233), 1, Point(4, 0)) {
 
     override fun getCoordinates(dir: Int): Array<Int> {
         return when (Math.floorMod(dir, 4)) {
-            0 -> arrayOf(1, 2, 5, 9)
-            1 -> arrayOf(0, 4, 5, 6)
-            2 -> arrayOf(1, 5, 9, 8)
-            3 -> arrayOf(4, 5, 6, 10)
+            0 -> arrayOf(0, 4, 5, 6)
+            1 -> arrayOf(1, 5, 9, 8)
+            2 -> arrayOf(4, 5, 6, 10)
+            3 -> arrayOf(1, 2, 5, 9)
             else -> arrayOf(-1, -1, -1, -1)
         }
     }
@@ -126,19 +124,21 @@ class JPiece : Piece(Color(1, 130, 233), 1, Point(4, 0)) {
 
 }
 
-class IPiece : Piece(Color(3, 201, 223), 0, Point(4, 0)) {
+class IPiece : Piece(PieceType.I, 0, Point(4, 0)) {
     override fun rotateCounterClockwise() {
-        direction = (direction + 1) % 2
+        direction = (direction + 1) % 4
     }
 
     override fun rotateClockwise() {
-        direction = Math.floorMod((direction - 1), 2)
+        direction = Math.floorMod((direction - 1), 4)
     }
 
     override fun getCoordinates(dir: Int): Array<Int> {
-        return when (Math.floorMod(dir, 2)) {
-            0 -> arrayOf(1, 5, 9, 13)
-            1 -> arrayOf(4, 5, 6, 7)
+        return when (Math.floorMod(dir, 4)) {
+            0 -> arrayOf(4, 5, 6, 7)
+            1 -> arrayOf(2, 6, 10, 14)
+            2 -> arrayOf(8, 9, 10, 11)
+            3 -> arrayOf(1, 5, 9, 13)
             else -> arrayOf(-1, -1, -1, -1)
         }
     }
@@ -148,7 +148,7 @@ class IPiece : Piece(Color(3, 201, 223), 0, Point(4, 0)) {
     }
 }
 
-class TPiece : Piece(Color(178, 0, 215), 0, Point(4, 0)) {
+class TPiece : Piece(PieceType.T, 0, Point(4, 0)) {
     override fun rotateCounterClockwise() {
         direction = (direction + 1) % 4
     }
@@ -172,7 +172,7 @@ class TPiece : Piece(Color(178, 0, 215), 0, Point(4, 0)) {
     }
 }
 
-class OPiece : Piece(Color(240, 230, 0), 0, Point(3, 0)) {
+class OPiece : Piece(PieceType.O, 0, Point(3, 0)) {
     override fun rotateCounterClockwise() {
         // squares can't rotate
     }
@@ -190,7 +190,7 @@ class OPiece : Piece(Color(240, 230, 0), 0, Point(3, 0)) {
     }
 }
 
-class SPiece : Piece(Color(6, 231, 67), 0, Point(4, 0)) {
+class SPiece : Piece(PieceType.S, 0, Point(4, 0)) {
     override fun rotateCounterClockwise() {
         direction = (direction + 1) % 2
     }
@@ -213,7 +213,7 @@ class SPiece : Piece(Color(6, 231, 67), 0, Point(4, 0)) {
     }
 }
 
-class ZPiece : Piece(Color(237, 1, 0), 0, Point(4, 0)) {
+class ZPiece : Piece(PieceType.Z, 0, Point(4, 0)) {
     override fun rotateCounterClockwise() {
         direction = (direction + 1) % 2
     }

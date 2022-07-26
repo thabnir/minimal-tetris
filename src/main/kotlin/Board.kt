@@ -1,4 +1,3 @@
-import java.awt.Color
 import java.util.stream.IntStream.range
 import kotlin.streams.toList
 
@@ -6,14 +5,14 @@ class Board {
     val staticGrid: ArrayList<Array<Cell>> = ArrayList()
     val activeGrid: ArrayList<Array<Cell>> = ArrayList()
     val ghostGrid: ArrayList<Array<Cell>> = ArrayList()
+    val spawnRows = 0 // for piece spawning
     val numCols = 10
-    val numRows = numCols * 2
-    var emptyColor: Color = Color.BLACK // TODO: make this not here and also customizable via settings menus
-
+    val numRows = 20 + spawnRows
+    val numDisplayedRows = numRows - spawnRows
     val nextPieces: ArrayList<Piece> = ArrayList() // 1 more than shows on screen
     var pieceBag: ArrayList<Piece> = ArrayList()
 
-    val hasGhostPiece = true
+    var hasGhostPiece = true
     var holdUsed = false
     var holdPiece: Piece? = null
     var activePiece: Piece
@@ -23,9 +22,9 @@ class Board {
 
     init {
         for (i in 0 until numRows) {
-            staticGrid.add(Array(numCols) { Cell(false, emptyColor) })
-            activeGrid.add(Array(numCols) { Cell(false, emptyColor) })
-            ghostGrid.add(Array(numCols) { Cell(false, emptyColor) })
+            staticGrid.add(Array(numCols) { Cell(PieceType.EMPTY) })
+            activeGrid.add(Array(numCols) { Cell(PieceType.EMPTY) })
+            ghostGrid.add(Array(numCols) { Cell(PieceType.EMPTY) })
         }
         for (i in 0 until 4) {
             nextPieces.add(generatePiece())
@@ -38,10 +37,10 @@ class Board {
 
     fun generateShuffledBag(): ArrayList<Piece> {
         val pieceList = listOf(LPiece(), JPiece(), IPiece(), TPiece(), OPiece(), SPiece(), ZPiece())
-        val onetoseven = range(0, 7).toList().shuffled()
+        val randNums = range(0, pieceList.size).toList().shuffled()
         val pieces = ArrayList<Piece>()
-        for (num in onetoseven) {
-            pieces.add(pieceList[num])
+        for (rand in randNums) {
+            pieces.add(pieceList[rand])
         }
         return pieces
     }
@@ -50,9 +49,9 @@ class Board {
         if (pieceBag.size == 0) {
             pieceBag.addAll(generateShuffledBag())
         }
-        val np = pieceBag[0]
+        val newPiece = pieceBag[0]
         pieceBag.removeAt(0)
-        return np
+        return newPiece
     }
 
     fun getNextPiece() {
@@ -70,10 +69,10 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + piece.coords.x
             val y = coord / 4 + piece.coords.y + 1
-            if (y < 0 || x < 0 || x > numCols - 1) {
-                return false
-            } else if (y > numRows - 1 || staticGrid[y][x].isFilled) {
-                if (activePiece == piece) placePiece()
+            if (y >= numRows || staticGrid[y][x].isFilled) {
+                if (piece === activePiece) {
+                    placePiece()
+                }
                 return false
             }
         }
@@ -141,7 +140,7 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + activePiece.coords.x + dx
             val y = coord / 4 + activePiece.coords.y + dy
-            if (y < 0 || x < 0 || x > numCols - 1 || y > numRows - 1 || staticGrid[y][x].isFilled) {
+            if (y < 0 || x < 0 || x >= numCols || y >= numRows || staticGrid[y][x].isFilled) {
                 return false
             }
         }
@@ -154,7 +153,7 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + activePiece.coords.x
             val y = coord / 4 + activePiece.coords.y
-            if (x < 0 || x > numCols - 1 || y < 0 || y > numRows - 1 || staticGrid[y][x].isFilled) {
+            if (x < 0 || x >= numCols || y < 0 || y >= numRows || staticGrid[y][x].isFilled) {
                 activePiece.direction = dir
                 return false
             }
@@ -168,35 +167,23 @@ class Board {
         for (coord in pieceCoordArray) {
             val x = coord % 4 + activePiece.coords.x
             val y = coord / 4 + activePiece.coords.y
-            grid[y][x] = Cell(true, activePiece.color)
+            grid[y][x] = Cell(activePiece.type)
         }
+        updateGhostPiece()
     }
 
     private fun updateGhostPiece() {
+        if (!hasGhostPiece) {
+            return
+        }
         ghostPiece = activePiece.clone(activePiece.direction)
-        ghostDrop()
+        ghostDrop() // TODO: figure out what the bug with this is (it keeps crashing)
         val pieceCoordArray = ghostPiece.getCoordinates()
         for (coord in pieceCoordArray) {
             val x = coord % 4 + ghostPiece.coords.x
             val y = coord / 4 + ghostPiece.coords.y
-            var c: Color
-            if (hasGhostPiece) {
-                val opacity = when (emptyColor) {
-                    Color.WHITE -> 45
-                    Color.BLACK -> 45 // TODO: make this customizable via slider in a settings menu
-                    else -> 50
-                }
-                c = Color(ghostPiece.color.red, ghostPiece.color.green, ghostPiece.color.blue, opacity)
-            } else {
-                c = emptyColor
-            }
-            ghostGrid[y][x] = Cell(true, c)
+            ghostGrid[y][x] = Cell(ghostPiece.type)
         }
-    }
-
-    private fun updatePiece() {
-        updatePiece(activeGrid)
-        updateGhostPiece()
     }
 
     private fun clearCheck() {
@@ -209,27 +196,34 @@ class Board {
         }
         for (row in pog) {
             linesCleared++
+            println("lines cleared: $linesCleared")
             staticGrid.remove(row)
-            staticGrid.add(0, Array(numCols) { Cell(false, emptyColor) })
+            staticGrid.add(0, Array(numCols) { Cell(PieceType.EMPTY) })
         }
     }
 
     fun update() {
         for (row in 0 until numRows) {
             for (col in 0 until numCols) {
-                activeGrid[row][col].isFilled = false
-                ghostGrid[row][col].isFilled = false
+                activeGrid[row][col].pieceType = PieceType.EMPTY
+                ghostGrid[row][col].pieceType = PieceType.EMPTY
             }
         }
-        updatePiece()
+        updatePiece(activeGrid)
     }
 
     fun holdPiece() {
         if (!holdUsed) {
             val temp = holdPiece
-            holdPiece = activePiece
-            holdPiece!!.coords.setLocation(4, 0)
-            holdPiece!!.direction = 0
+            holdPiece = when (activePiece) {
+                is JPiece -> JPiece()
+                is LPiece -> LPiece()
+                is OPiece -> OPiece()
+                is SPiece -> SPiece()
+                is TPiece -> TPiece()
+                is ZPiece -> ZPiece()
+                else -> IPiece()
+            }
             if (temp != null) {
                 activePiece = temp
             } else {
@@ -240,7 +234,7 @@ class Board {
     }
 
     fun getDropSpeed(): Int {
-        val linesPerLevel = 20 // TODO: adjust this (and learn what tetris actually uses for levels)
+        val linesPerLevel = 10 // TODO: adjust this (and learn what tetris actually uses for levels)
         val level = linesCleared / linesPerLevel + 1
         return level
         // TODO: make the speed scale properly
@@ -253,4 +247,7 @@ class Board {
     }
 }
 
-data class Cell(var isFilled: Boolean, var color: Color)
+data class Cell(var pieceType: PieceType) {
+    val isFilled: Boolean
+        get() = pieceType != PieceType.EMPTY
+}
