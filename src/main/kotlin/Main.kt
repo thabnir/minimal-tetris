@@ -1,3 +1,4 @@
+import com.formdev.flatlaf.FlatDarkLaf
 import com.formdev.flatlaf.util.SystemInfo
 
 fun main() {
@@ -17,6 +18,8 @@ fun main() {
         // (needs to be set on main thread; setting it on AWT thread does not work)
         // if (Theme.isDarkMode) System.setProperty("apple.awt.application.appearance", "NSAppearanceNameDarkAqua")
         // else System.setProperty("apple.awt.application.appearance", "NSAppearanceNameAqua")
+    } else {
+        FlatDarkLaf.setup()
     }
 
     val g = GraphicsPanel()

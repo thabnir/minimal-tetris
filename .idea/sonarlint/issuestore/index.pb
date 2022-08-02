@@ -24,16 +24,10 @@ w
 G.idea/sonarlint/issuestore/7/4/749edfcc96398253e5b3416184e95c46621da850,d/4/d4115e7e13112fe372c450a6354345d7e7531a57
 w
 G.idea/sonarlint/issuestore/2/a/2a45a911a8f1836b0b6c5b758962572012d8f8c3,9/a/9aed88f31eac276604c6355c1adcc0bce1f80fd6
-S
-#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
 H
 src/main/kotlin/Board.kt,7/4/742b509ed8b8c12edcf98d67d1b96365bb68b949
-G
-src/main/kotlin/Main.kt,d/8/d83ae3847b7d408136086cc5e9e95f5f7c126ed5
 N
 src/main/kotlin/Preferences.kt,5/b/5ba0aaf7d6379f95f7fbf3352eff5a0b52f4919b
-P
- src/main/kotlin/GraphicsPanel.kt,a/6/a63ab0a9a8f495a0dd5eed2e4bbd05bb8917424f
 Q
 !src/main/kotlin/GameBoardPanel.kt,0/d/0d98feaecf49a28736bce5ccd5f979efcf9eb8e0
 H
