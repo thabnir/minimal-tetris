@@ -4,7 +4,7 @@ fun main() {
     if (SystemInfo.isMacOS) {
         // enable screen menu bar [i think this is an instruction for where to enable it]
         // (moves menu bar from JFrame window to top of screen)
-        System.setProperty("apple.laf.useScreenMenuBar", Theme.yee.toString())
+        System.setProperty("apple.laf.useScreenMenuBar", Theme.hasTransparentWindowBar.toString())
 
         // application name used in screen menu bar (in first menu after the "apple" menu)
         System.setProperty("apple.awt.application.name", "Tetris")

@@ -33,7 +33,6 @@ TODO: make selectable background color (that properly works with the background 
  */
 
 class GraphicsPanel : JPanel() {
-    val screenSize: Dimension = Toolkit.getDefaultToolkit().screenSize
     var theme = Theme.BABY
     var paused = false
     val frame = JFrame("Tetris")
@@ -93,7 +92,7 @@ class GraphicsPanel : JPanel() {
         if (SystemInfo.isMacOS) {
             if (SystemInfo.isMacFullWindowContentSupported) {
                 // expand window content into window title bar and make title bar transparent
-                frame.rootPane.putClientProperty("apple.awt.fullWindowContent", Theme.yee)
+                frame.rootPane.putClientProperty("apple.awt.fullWindowContent", Theme.hasTransparentWindowBar)
                 // hide window title
                 if (SystemInfo.isJava_17_orLater) {
                     frame.rootPane.putClientProperty("apple.awt.windowTitleVisible", false)
@@ -180,7 +179,7 @@ class GraphicsPanel : JPanel() {
         val menu = JMenu("Visual Preferences")
 
         val gapLabel = JLabel("Gap: " + Theme.gap)
-        val gapSlider = JSlider(JSlider.HORIZONTAL, 0, 50, Theme.gap)
+        val gapSlider = JSlider(JSlider.HORIZONTAL, 0, 42, Theme.gap)
         gapSlider.addChangeListener {
             Theme.gap = gapSlider.value // doesn't show up on the menu for some reason
             gapLabel.text = "Gap: " + Theme.gap

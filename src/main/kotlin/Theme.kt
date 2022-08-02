@@ -70,13 +70,13 @@ enum class Theme(
     );
 
     companion object {
-        val yee = true
-        var isDarkMode: Boolean = false
+        val hasTransparentWindowBar = true
+        var isDarkMode: Boolean = true
         var isWireframeGhostPiece = true // breaks at gap == 0
             get() = if (gap == 0) false else field
-        var bevelPercent = .33f // 0 to 1
+        var bevelPercent = .25f // 0 to 1
         var gap = 2 // gap between cells
-        var t = 1 // ghost piece line thickness (if it's an outline)
+        var borderThickness = 1 // ghost piece line thickness (if it's an outline)
         var isRound = true
             get() = if (bevelPercent == 0f) false else field
     }

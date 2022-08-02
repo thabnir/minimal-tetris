@@ -54,10 +54,10 @@ class GameBoardPanel(val panel: GraphicsPanel) : JPanel() {
                     if (isGhost && Theme.isWireframeGhostPiece) {
                         g.color = panel.theme.backgroundColor
                         g.fillRoundRect(
-                            leftEdge + Theme.t,
-                            topEdge + Theme.t,
-                            wi - 2 * Theme.t,
-                            he - 2 * Theme.t,
+                            leftEdge + Theme.borderThickness,
+                            topEdge + Theme.borderThickness,
+                            wi - 2 * Theme.borderThickness,
+                            he - 2 * Theme.borderThickness,
                             bevelSize, bevelSize
                         )
                     }
@@ -66,10 +66,10 @@ class GameBoardPanel(val panel: GraphicsPanel) : JPanel() {
                     if (isGhost && Theme.isWireframeGhostPiece) {
                         g.color = panel.theme.backgroundColor
                         g.fillRect(
-                            leftEdge + Theme.t,
-                            topEdge + Theme.t,
-                            wi - 2 * Theme.t,
-                            he - 2 * Theme.t
+                            leftEdge + Theme.borderThickness,
+                            topEdge + Theme.borderThickness,
+                            wi - 2 * Theme.borderThickness,
+                            he - 2 * Theme.borderThickness
                         )
                     }
                 }
