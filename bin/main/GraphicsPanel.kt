@@ -1,6 +1,7 @@
 import com.formdev.flatlaf.util.SystemInfo
 import java.awt.BorderLayout
 import java.awt.Dimension
+import java.awt.Toolkit
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 import java.lang.System.currentTimeMillis
@@ -9,7 +10,7 @@ import javax.swing.*
 
 
 /*
-TODO: figure out how it crashed those two times (index out of bounds for a ghost piece dropping) // I THINK I SOLVED THIS
+TODO: figure out how it crashed those two times (index out of bounds for a ghost piece dropping)
 
 TODO: fix collisions (bounce off edges when spinning, verify which spins you can do)
 TODO: make the pieces spawn in the correct place (above the screen I believe)
@@ -28,6 +29,7 @@ TODO: add sound + visual effects (very optional)
 TODO: add a new game / restart button (with level select)
 TODO: add a visual pause button
 TODO: add a preferences menu (for controls, ghost pieces, auto-repeat settings, sfx, vfx, music, etc.)
+TODO: make selectable background color (that properly works with the background color of the frame)
  */
 
 class GraphicsPanel : JPanel() {
@@ -126,7 +128,7 @@ class GraphicsPanel : JPanel() {
 
     fun run() {
         // NOTE: DO NOT CALL THIS METHOD IN GRAPHICS PANEL INITIALIZER
-        gameBoardPanel.isDoubleBuffered = true // IDK if this does anything TBH
+        gameBoardPanel.isDoubleBuffered = true // idk if this does anything tbh
         var skipTicks = (1000 / board.getDropSpeed() / .6).toInt()
         val maxFrameSkip = 10
         var nextGameTick = tickCount
