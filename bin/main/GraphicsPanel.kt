@@ -1,7 +1,7 @@
 import com.formdev.flatlaf.util.SystemInfo
+import java.awt.Adjustable
 import java.awt.BorderLayout
 import java.awt.Dimension
-import java.awt.Toolkit
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 import java.lang.System.currentTimeMillis
@@ -10,8 +10,6 @@ import javax.swing.*
 
 
 /*
-TODO: figure out how it crashed those two times (index out of bounds for a ghost piece dropping)
-
 TODO: fix collisions (bounce off edges when spinning, verify which spins you can do)
 TODO: make the pieces spawn in the correct place (above the screen I believe)
 TODO: make auto-repeat delay and rate customizable and unlinked from key repeat speed
@@ -29,7 +27,6 @@ TODO: add sound + visual effects (very optional)
 TODO: add a new game / restart button (with level select)
 TODO: add a visual pause button
 TODO: add a preferences menu (for controls, ghost pieces, auto-repeat settings, sfx, vfx, music, etc.)
-TODO: make selectable background color (that properly works with the background color of the frame)
  */
 
 class GraphicsPanel : JPanel() {
@@ -128,7 +125,7 @@ class GraphicsPanel : JPanel() {
 
     fun run() {
         // NOTE: DO NOT CALL THIS METHOD IN GRAPHICS PANEL INITIALIZER
-        gameBoardPanel.isDoubleBuffered = true // idk if this does anything tbh
+        gameBoardPanel.isDoubleBuffered = true // IDK if this does anything TBH
         var skipTicks = (1000 / board.getDropSpeed() / .6).toInt()
         val maxFrameSkip = 10
         var nextGameTick = tickCount
@@ -147,7 +144,7 @@ class GraphicsPanel : JPanel() {
                 }
                 board.update()
                 gameBoardPanel.repaint()
-                sleep(5)
+                sleep(5) // sleep for a bit to prevent the CPU from exploding
             }
 
             loops = 0
@@ -165,19 +162,12 @@ class GraphicsPanel : JPanel() {
         // menuBar.add(createGameplayPrefsMenu())
         menuBar.add(createThemeMenu())
         menuBar.add(createVisualPrefsMenu())
+        // menuBar.add(createSliderPanel())
         menuBar.validate()
         return menuBar
     }
 
-    private fun createGameplayPrefsMenu(): JMenu {
-        val preferencesMenu = JMenu("Gameplay")
-        // do stuff about level select, key repeat time, etc.
-        return preferencesMenu
-    }
-
-    fun createVisualPrefsMenu(): JMenu {
-        val menu = JMenu("Visual Preferences")
-
+    private fun createSliderPanel(): JPanel {
         val gapLabel = JLabel("Gap: " + Theme.gap)
         val gapSlider = JSlider(JSlider.HORIZONTAL, 0, 42, Theme.gap)
         gapSlider.addChangeListener {
@@ -191,6 +181,41 @@ class GraphicsPanel : JPanel() {
             Theme.bevelPercent = bevelSlider.value.toFloat() / 100 // doesn't show up on the menu for some reason
             bevelLabel.text = "Roundness: " + Theme.bevelPercent
         }
+
+
+        val panel = JPanel()
+        panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
+        panel.add(gapLabel)
+        panel.add(gapSlider)
+        panel.add(bevelLabel)
+        panel.add(bevelSlider)
+        return panel
+    }
+
+    private fun createGameplayPrefsMenu(): JMenu {
+        val preferencesMenu = JMenu("Gameplay")
+        // do stuff about level select, key repeat time, etc.
+        return preferencesMenu
+    }
+
+    fun createVisualPrefsMenu(): JMenu {
+        val menu = JMenu("Visual Preferences")
+
+        // TODO: these (the sliders) don't work on mac for some reason
+//        val gapLabel = JLabel("Gap: " + Theme.gap)
+//        val gapSlider = JSlider(JSlider.HORIZONTAL, 0, 42, Theme.gap)
+//        gapSlider.addChangeListener {
+//            Theme.gap = gapSlider.value // doesn't show up on the menu for some reason
+//            gapLabel.text = "Gap: " + Theme.gap
+//        }
+//
+//        val bevelLabel = JLabel("Roundness: " + Theme.bevelPercent)
+//        val bevelSlider = JSlider(JSlider.HORIZONTAL, 0, 100, (Theme.bevelPercent * 100).toInt())
+//        bevelSlider.addChangeListener {
+//            Theme.bevelPercent = bevelSlider.value.toFloat() / 100 // doesn't show up on the menu for some reason
+//            bevelLabel.text = "Roundness: " + Theme.bevelPercent
+//        }
+
 
         val hasGhostPieceItem = JCheckBoxMenuItem("Ghost Piece", board.hasGhostPiece)
         hasGhostPieceItem.addActionListener {
@@ -215,10 +240,13 @@ class GraphicsPanel : JPanel() {
         menu.add(darkModeMenuItem)
         menu.add(hasGhostPieceItem)
         menu.add(isGhostOutlinedItem)
-        menu.add(bevelLabel)
-        menu.add(bevelSlider)
-        menu.add(gapLabel)
-        menu.add(gapSlider) // doesn't work when bar is at top of screen
+
+        // TODO: these don't work on mac for some reason
+//        menu.add(bevelLabel)
+//        menu.add(bevelSlider)
+//        menu.add(gapLabel)
+//        menu.add(gapSlider)
+
         return menu
     }
 

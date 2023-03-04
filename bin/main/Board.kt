@@ -196,7 +196,7 @@ class Board {
         }
         for (row in pog) {
             linesCleared++
-            println("lines cleared: $linesCleared")
+            //println("lines cleared: $linesCleared")
             staticGrid.remove(row)
             staticGrid.add(0, Array(numCols) { Cell(PieceType.EMPTY) })
         }
@@ -238,11 +238,11 @@ class Board {
         val level = linesCleared / linesPerLevel + 1
         return level
         // TODO: make the speed scale properly
-        return when (level) {
-            1 -> 1
-
-            else -> 50
-        }
+//        return when (level) {
+//            1 -> 1
+//
+//            else -> 50
+//        }
 
     }
 }

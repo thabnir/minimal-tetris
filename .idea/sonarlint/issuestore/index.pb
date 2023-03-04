@@ -24,3 +24,7 @@ w
 G.idea/sonarlint/issuestore/2/a/2a45a911a8f1836b0b6c5b758962572012d8f8c3,9/a/9aed88f31eac276604c6355c1adcc0bce1f80fd6
 N
 src/main/kotlin/Preferences.kt,5/b/5ba0aaf7d6379f95f7fbf3352eff5a0b52f4919b
+H
+src/main/kotlin/Theme.kt,0/a/0ad9e3e5da0b2904c4357137df27054b4ae426ce
+@
+build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
