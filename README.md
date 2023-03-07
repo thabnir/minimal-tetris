@@ -26,18 +26,18 @@ https://user-images.githubusercontent.com/91647750/222933041-89697b8a-ab27-46ca-
 
 #### Light
 
-![Screenshot 1](./src/main/resources/screenshots/baby_dark_outline.png)
+![Baby theme light](./src/main/resources/screenshots/baby_light_translucent.png)
 
 #### Dark
 
-![Screenshot 2](./src/main/resources/screenshots/baby_light_translucent.png)
+![Baby theme dark](./src/main/resources/screenshots/baby_dark_outline.png)
 
 ## Retro theme
 
 #### Light
 
-![Screenshot 3](./src/main/resources/screenshots/retro_dark_outline.png)
+![Retro theme light](./src/main/resources/screenshots/retro_light_translucent.png)
 
 #### Dark
 
-![Screenshot 4](./src/main/resources/screenshots/retro_light_translucent.png)
+![Retro theme dark](./src/main/resources/screenshots/retro_dark_outline.png)
