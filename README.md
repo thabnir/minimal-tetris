@@ -1,6 +1,6 @@
-# KTetris
+# minimal-tetris
 
-KTetris is my minimal implementation of the classic Tetris game.
+minimal-tetris is my minimal implementation of the classic NES game Tetris.
 
 Has different themes and a hold piece. Uses 7-bag randomization.
 
