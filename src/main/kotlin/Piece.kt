@@ -32,45 +32,17 @@ abstract class Piece(val type: PieceType, var direction: Int, var coords: Point)
         // TODO: make this less shitty perhaps? fixing it might be more work than it's worth
         val p: Piece
         when (this) {
-            is LPiece -> {
-                p = LPiece()
-                p.direction = direction
-                p.coords = Point(this.coords.x, this.coords.y)
-            }
-            is JPiece -> {
-                p = JPiece()
-                p.direction = direction
-                p.coords = Point(this.coords.x, this.coords.y)
-            }
-            is IPiece -> {
-                p = IPiece()
-                p.direction = direction
-                p.coords = Point(this.coords.x, this.coords.y)
-            }
-            is TPiece -> {
-                p = TPiece()
-                p.direction = direction
-                p.coords = Point(this.coords.x, this.coords.y)
-            }
-            is OPiece -> {
-                p = OPiece()
-                p.direction = direction
-                p.coords = Point(this.coords.x, this.coords.y)
-            }
-            is SPiece -> {
-                p = SPiece()
-                p.direction = direction
-                p.coords = Point(this.coords.x, this.coords.y)
-            }
-            is ZPiece -> {
-                p = ZPiece()
-                p.direction = direction
-                p.coords = Point(this.coords.x, this.coords.y)
-            }
-            else -> {
-                error("Unknown piece type")
-            }
+            is LPiece -> p = LPiece()
+            is JPiece -> p = JPiece()
+            is IPiece -> p = IPiece()
+            is TPiece -> p = TPiece()
+            is OPiece -> p = OPiece()
+            is SPiece -> p = SPiece()
+            is ZPiece -> p = ZPiece()
+            else -> error("Unknown piece type")
         }
+        p.direction = direction
+        p.coords = Point(this.coords.x, this.coords.y)
         return p
     }
 }
