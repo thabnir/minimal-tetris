@@ -1,5 +1,7 @@
 # minimal-tetris
 
+🏆 One of the Top Projects for the McGill Projects showcase event 🎉
+
 minimal-tetris is my minimal implementation of the classic NES game Tetris.
 
 Has different themes and a hold piece. Uses 7-bag randomization.
