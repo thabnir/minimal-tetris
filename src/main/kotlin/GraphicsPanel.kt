@@ -87,7 +87,7 @@ class GraphicsPanel : JPanel() {
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.pack()
         frame.layout = BorderLayout() // prevents the frame from resizing itself
-        frame.isResizable = true
+        frame.isResizable = false
         frame.setLocationRelativeTo(null)
         frame.validate()
         frame.isVisible = true
@@ -212,19 +212,19 @@ class GraphicsPanel : JPanel() {
         val menu = JMenu("Visual Preferences")
 
         // TODO: these (the sliders) don't work on mac for some reason
-//        val gapLabel = JLabel("Gap: " + Theme.gap)
-//        val gapSlider = JSlider(JSlider.HORIZONTAL, 0, 42, Theme.gap)
-//        gapSlider.addChangeListener {
-//            Theme.gap = gapSlider.value // doesn't show up on the menu for some reason
-//            gapLabel.text = "Gap: " + Theme.gap
-//        }
-//
-//        val bevelLabel = JLabel("Roundness: " + Theme.bevelPercent)
-//        val bevelSlider = JSlider(JSlider.HORIZONTAL, 0, 100, (Theme.bevelPercent * 100).toInt())
-//        bevelSlider.addChangeListener {
-//            Theme.bevelPercent = bevelSlider.value.toFloat() / 100 // doesn't show up on the menu for some reason
-//            bevelLabel.text = "Roundness: " + Theme.bevelPercent
-//        }
+        val gapLabel = JLabel("Gap: " + Theme.gap)
+        val gapSlider = JSlider(JSlider.HORIZONTAL, 0, 42, Theme.gap)
+        gapSlider.addChangeListener {
+            Theme.gap = gapSlider.value // doesn't show up on the menu for some reason
+            gapLabel.text = "Gap: " + Theme.gap
+        }
+
+        val bevelLabel = JLabel("Roundness: " + Theme.bevelPercent)
+        val bevelSlider = JSlider(JSlider.HORIZONTAL, 0, 100, (Theme.bevelPercent * 100).toInt())
+        bevelSlider.addChangeListener {
+            Theme.bevelPercent = bevelSlider.value.toFloat() / 100 // doesn't show up on the menu for some reason
+            bevelLabel.text = "Roundness: " + Theme.bevelPercent
+        }
 
 
         val hasGhostPieceItem = JCheckBoxMenuItem("Ghost Piece", board.hasGhostPiece)
@@ -252,10 +252,10 @@ class GraphicsPanel : JPanel() {
         menu.add(isGhostOutlinedItem)
 
         // TODO: these don't work on mac for some reason
-//        menu.add(bevelLabel)
-//        menu.add(bevelSlider)
-//        menu.add(gapLabel)
-//        menu.add(gapSlider)
+        menu.add(bevelLabel)
+        menu.add(bevelSlider)
+        menu.add(gapLabel)
+        menu.add(gapSlider)
 
         return menu
     }
