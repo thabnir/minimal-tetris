@@ -37,11 +37,11 @@ class GraphicsPanel : JPanel() {
     val gameBoardPanel = GameBoardPanel(this)
 
     init {
+        frame.iconImage = ImageIcon(javaClass.getResource("tetris_logo.png")).image // doesn't do anything?
         mainFrameMac()
         menuBar = createTableMenuBar()
         frame.jMenuBar = menuBar
 
-        frame.iconImage = ImageIcon(javaClass.getResource("tetris_logo.png")).image // doesn't do anything?
 
         frame.addKeyListener(object : KeyListener {
             override fun keyPressed(e: KeyEvent) {
@@ -193,7 +193,7 @@ class GraphicsPanel : JPanel() {
 
     private fun createGameplayPrefsMenu(): JMenu {
         val preferencesMenu = JMenu("Gameplay")
-        // do stuff about level select, key repeat time, etc.
+        // TODO: do stuff about level select, key repeat time, etc.
         return preferencesMenu
     }
 

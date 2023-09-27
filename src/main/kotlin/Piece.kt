@@ -29,7 +29,6 @@ abstract class Piece(val type: PieceType, var direction: Int, var coords: Point)
     }
 
     fun clone(direction: Int): Piece {
-        // TODO: make this less shitty perhaps? fixing it might be more work than it's worth
         val piece = when (this) {
             is LPiece -> LPiece()
             is JPiece -> JPiece()
@@ -171,7 +170,6 @@ class SPiece : Piece(PieceType.S, 0, Point(4, 0)) {
     }
 
     override fun getCoordinates(dir: Int): Array<Int> {
-        // UNTESTED COORDS
         return when (Math.floorMod(dir, 2)) {
             0 -> arrayOf(1, 2, 4, 5)
             1 -> arrayOf(0, 4, 5, 9)
@@ -194,7 +192,6 @@ class ZPiece : Piece(PieceType.Z, 0, Point(4, 0)) {
     }
 
     override fun getCoordinates(dir: Int): Array<Int> {
-        // UNTESTED COORDS
         return when (Math.floorMod(dir, 2)) {
             0 -> arrayOf(0, 1, 5, 6)
             1 -> arrayOf(1, 4, 5, 8)

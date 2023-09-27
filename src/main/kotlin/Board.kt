@@ -129,7 +129,7 @@ class Board {
     }
 
     fun placePiece() {
-        updatePiece(staticGrid)
+        updateActivePiece(staticGrid)
         clearCheck()
         getNextPiece()
         holdUsed = false
@@ -162,14 +162,18 @@ class Board {
         return true
     }
 
-    private fun updatePiece(grid: ArrayList<Array<Cell>>) {
-        val pieceCoordArray = activePiece.getCoordinates()
-        for (coord in pieceCoordArray) {
-            val x = coord % 4 + activePiece.coords.x
-            val y = coord / 4 + activePiece.coords.y
-            grid[y][x] = Cell(activePiece.type)
-        }
+    private fun updateActivePiece(grid: ArrayList<Array<Cell>>) {
+        updatePiece(grid, activePiece)
         updateGhostPiece()
+    }
+
+    private fun updatePiece(grid: ArrayList<Array<Cell>>, piece: Piece) {
+        val pieceCoordArray = piece.getCoordinates()
+        for (coord in pieceCoordArray) {
+            val x = coord % 4 + piece.coords.x
+            val y = coord / 4 + piece.coords.y
+            grid[y][x] = Cell(piece.type)
+        }
     }
 
     private fun updateGhostPiece() {
@@ -177,13 +181,8 @@ class Board {
             return
         }
         ghostPiece = activePiece.clone(activePiece.direction)
-        ghostDrop() // TODO: figure out what the bug with this is (it keeps crashing)
-        val pieceCoordArray = ghostPiece.getCoordinates()
-        for (coord in pieceCoordArray) {
-            val x = coord % 4 + ghostPiece.coords.x
-            val y = coord / 4 + ghostPiece.coords.y
-            ghostGrid[y][x] = Cell(ghostPiece.type)
-        }
+        ghostDrop() // TODO: figure out what the bug with this is (may be cause of crashing)
+        updatePiece(ghostGrid, ghostPiece)
     }
 
     private fun clearCheck() {
@@ -209,7 +208,7 @@ class Board {
                 ghostGrid[row][col].pieceType = PieceType.EMPTY
             }
         }
-        updatePiece(activeGrid)
+        updateActivePiece(activeGrid)
     }
 
     fun holdPiece() {
@@ -235,15 +234,7 @@ class Board {
 
     fun getDropSpeed(): Int {
         val linesPerLevel = 10 // TODO: adjust this (and learn what tetris actually uses for levels)
-        val level = linesCleared / linesPerLevel + 1
-        return level
-        // TODO: make the speed scale properly
-//        return when (level) {
-//            1 -> 1
-//
-//            else -> 50
-//        }
-
+        return linesCleared / linesPerLevel + 1 // level
     }
 }
 
