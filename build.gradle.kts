@@ -1,7 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm") version "1.7.0"
+    kotlin("jvm") version "1.9.0"
     application
 }
 
@@ -10,18 +8,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs("src/main/kotlin")
-        }
-    }
-}
-
-application {
-    mainClass.set("MainKt")
 }
 
 dependencies {
@@ -34,6 +20,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+kotlin {
+    jvmToolchain(8)
+}
+
+application {
+    mainClass.set("MainKt")
 }
