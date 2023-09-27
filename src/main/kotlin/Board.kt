@@ -46,7 +46,7 @@ class Board {
     }
 
     fun generatePiece(): Piece {
-        if (pieceBag.size == 0) {
+        if (pieceBag.isEmpty()) {
             pieceBag.addAll(generateShuffledBag())
         }
         val newPiece = pieceBag[0]

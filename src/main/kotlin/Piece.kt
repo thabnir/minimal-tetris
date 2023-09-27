@@ -30,20 +30,19 @@ abstract class Piece(val type: PieceType, var direction: Int, var coords: Point)
 
     fun clone(direction: Int): Piece {
         // TODO: make this less shitty perhaps? fixing it might be more work than it's worth
-        val p: Piece
-        when (this) {
-            is LPiece -> p = LPiece()
-            is JPiece -> p = JPiece()
-            is IPiece -> p = IPiece()
-            is TPiece -> p = TPiece()
-            is OPiece -> p = OPiece()
-            is SPiece -> p = SPiece()
-            is ZPiece -> p = ZPiece()
+        val piece = when (this) {
+            is LPiece -> LPiece()
+            is JPiece -> JPiece()
+            is IPiece -> IPiece()
+            is TPiece -> TPiece()
+            is OPiece -> OPiece()
+            is SPiece -> SPiece()
+            is ZPiece -> ZPiece()
             else -> error("Unknown piece type")
         }
-        p.direction = direction
-        p.coords = Point(this.coords.x, this.coords.y)
-        return p
+        piece.direction = direction
+        piece.coords = Point(this.coords.x, this.coords.y)
+        return piece
     }
 }
 

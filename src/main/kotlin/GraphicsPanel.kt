@@ -36,17 +36,6 @@ class GraphicsPanel : JPanel() {
     val menuBar: JMenuBar
     val gameBoardPanel = GameBoardPanel(this)
 
-    fun test() {
-        val students = arrayOf("a", "b", "c", "d")
-        printStudents(*students)
-    }
-
-    fun printStudents(vararg students: String) {
-        for (student in students) {
-            println(student)
-        }
-    }
-
     init {
         mainFrameMac()
         menuBar = createTableMenuBar()
